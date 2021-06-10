@@ -16,7 +16,9 @@ jobs:
       with:
         node-version: 14.x
     - run: npm ci
+    - run: ls
     - run: npm run build
+    - run: ls
 
   dockerize:
     runs-on: ubuntu-latest
@@ -29,12 +31,11 @@ jobs:
           echo IMAGE_TAG=$(echo ${{ github.ref }} | tr '[:upper:]' '[:lower:]' | awk '{split($0,a,"/"); print a[3]}') >> $GITHUB_ENV
         
       - name: Docker login
+        run: ls
         run: docker login docker.pkg.github.com -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
     
-      - name: get folder
-        run: ls
-
       - name: Docker build
+        run: ls
         run: docker build -t ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:$GITHUB_SHA -f Dockerfile .;
     
       - name: Docker publish
