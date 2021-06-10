@@ -15,7 +15,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14.x
-    - run: npm i
+    - run: npm ci
     - run: npm run build
 
   dockerize:
@@ -31,6 +31,9 @@ jobs:
       - name: Docker login
         run: docker login docker.pkg.github.com -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
     
+      - name: get folder
+        run: ls
+
       - name: Docker build
         run: docker build -t ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:$GITHUB_SHA -f Dockerfile .;
     
