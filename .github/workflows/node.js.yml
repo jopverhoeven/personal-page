@@ -29,10 +29,10 @@ jobs:
         echo IMAGE_TAG=$(echo ${{ github.ref }} | tr '[:upper:]' '[:lower:]' | awk '{split($0,a,"/"); print a[3]}') >> $GITHUB_ENV
       
     - name: Docker login
-      run: docker login docker.pkg.github.com -u jopverhoeven -p ${{ secrets.GITHUB_TOKEN }}
+      run: docker login ghcr.io -u jopverhoeven -p ${{ secrets.GITHUB_TOKEN }}
   
     - name: Docker build
-      run: docker build -t docker.pkg.github.com/${{ env.IMAGE_REPOSITORY }}/personal-page:$GITHUB_SHA -f Dockerfile .;
+      run: docker build -t ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:$GITHUB_SHA -f Dockerfile .;
   
     - name: Docker publish
-      run: docker push docker.pkg.github.com/${{ env.IMAGE_REPOSITORY }}/personal-page:$GITHUB_SHA
+      run: docker push ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:$GITHUB_SHA
