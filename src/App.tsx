@@ -3,7 +3,7 @@ import MainPage from './pages/Main.page';
 
 function App() {
   return (
-    <div className="App">
+    <div className="h-screen w-screen">
       <MainPage></MainPage>
     </div>
   );
