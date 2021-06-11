@@ -1,9 +1,10 @@
 import './App.css';
+import MainPage from './pages/Main.page';
 
 function App() {
   return (
     <div className="App">
-      Jopverhoeven.nl
+      <MainPage></MainPage>
     </div>
   );
 }
