@@ -50,3 +50,6 @@ jobs:
         tags: |
           ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
           ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:${{github.sha}}
+          
+    - name: Pull built Docker image
+      run: docker pull ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:${{github.sha}}
