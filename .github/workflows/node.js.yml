@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         node-version: [14.x]
@@ -50,3 +50,6 @@ jobs:
         tags: |
           ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
           ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:${{github.sha}}
+    
+    - name: Run docker pull
+      run: docker pull ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:${{github.sha}}
