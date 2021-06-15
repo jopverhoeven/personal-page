@@ -60,4 +60,4 @@ jobs:
       continue-on-error: true
     
     - name: Run built Docker image
-      run: docker run -d -p 80:80 ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
+      run: docker run -v jopverhoeven.crt:/certs/jopverhoeven.crt -v jopverhoeven.key:/certs/jopverhoeven.key -d -p 80:80 -p 443:443 ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
