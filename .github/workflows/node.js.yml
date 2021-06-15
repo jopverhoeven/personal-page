@@ -53,6 +53,7 @@ jobs:
     
     - name: Kill running docker images of personal-page
       run: docker rm $(docker stop $(docker ps -a -q --filter ancestor=ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest --format="{{.ID}}"))
+      continue-on-error: true
     
     - name: Run built Docker image
       run: docker run -d -p 80:80 ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
