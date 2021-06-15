@@ -49,3 +49,4 @@ jobs:
         push: true
         tags: |
           ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
+          ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:${{github.sha}}
