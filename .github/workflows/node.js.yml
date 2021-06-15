@@ -50,6 +50,9 @@ jobs:
         tags: |
           ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
           ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:${{github.sha}}
-          
-    - name: Pull built Docker image
-      run: docker pull ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:${{github.sha}}
+    
+    - name: Kill running docker images of personal-page
+      run: docker rm $(docker stop $(docker ps -a -q --filter ancestor=ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest --format="{{.ID}}"))
+    
+    - name: Run built Docker image
+      run: docker run -d -p 80:80 ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest
