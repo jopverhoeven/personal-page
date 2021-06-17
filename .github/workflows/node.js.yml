@@ -53,6 +53,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
+    needs: [build-and-publish]
     strategy:
       matrix:
         node-version: [14.x]
