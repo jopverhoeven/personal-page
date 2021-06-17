@@ -8,7 +8,7 @@ function App() {
     <div className="h-screen flex flex-col">
       <Router>
         <Navbar></Navbar>
-        <div className="flex-1 flex">
+        <div className="flex-1 flex mt-16 sm:mt-0">
           <Switch>
             <Route path="/">
               <MainPage></MainPage>
