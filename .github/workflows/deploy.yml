@@ -1,0 +1,35 @@
+name: Deploy
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+jobs:
+  build-success:
+    if: ${{ github.event.workflow_run.success == 'success' }}
+  deploy:
+    runs-on: self-hosted
+      needs: [build-and-publish]
+      steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: PrepareReg Names
+        run: |
+          echo IMAGE_REPOSITORY=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
+          echo IMAGE_TAG=$(echo ${{ github.ref }} | tr '[:upper:]' '[:lower:]' | awk '{split($0,a,"/"); print a[3]}') >> $GITHUB_ENV
+      
+      - name: Kill running docker containers of personal-page
+        run: docker rm $(docker stop $(docker ps -a -q --filter ancestor=ghcr.io/${{ env.IMAGE_REPOSITORY }}/personal-page:latest --format="{{.ID}}"))
+        continue-on-error: true
+      
+      - name: Remove docker images of personal-page
+        run: docker rmi ghcr.io/jopverhoeven/personal-page/personal-page
+        continue-on-error: true
+      
+      - name: Run built Docker image
+        run: docker run -v /etc/letsencrypt/live/jopverhoeven.nl/fullchain.pem:/certs/cert.pem -v /etc/letsencrypt/live/jopverhoeven.nl/privkey.pem:/certs/key.pem -d -p 80:80 -p 443:443 ghcr.io/jopverhoeven/personal-page/personal-page:latest
